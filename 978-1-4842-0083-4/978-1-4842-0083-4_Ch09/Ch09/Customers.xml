@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Extract Date="2011-07-04">
+  <Customers>
+    <Customer Key="11000">
+      <Name>
+        <FirstName>Jon</FirstName>
+        <LastName>Yang</LastName>
+      </Name>
+      <BirthDate>1966-04-08</BirthDate>
+      <Gender>M</Gender>
+      <YearlyIncome>90000</YearlyIncome>
+    </Customer>
+    <Customer Key="11001">
+      <Name>
+        <FirstName>Eugene</FirstName>
+        <LastName>Huang</LastName>
+      </Name>
+      <BirthDate>1965-05-14</BirthDate>
+      <Gender>M</Gender>
+      <YearlyIncome>60000</YearlyIncome>
+    </Customer>
+  </Customers>
+</Extract>

@@ -1,0 +1,1828 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/31/2011 4:07:32 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="MMASSON6"
+  DTS:CreatorName="REDMOND\mmasson"
+  DTS:DTSID="{9C6B1F86-7366-4139-99B2-F664FF5CE674}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.1750.3"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="HandleAllStatus"
+  DTS:PackageType="5"
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{8F2F65B3-C5BA-44B1-B177-03CC3B34D26A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AdventureWorksDW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{44A0682B-2EEB-4EB3-9248-57582B21E6CD}"
+      DTS:ObjectName="AdventureWorksDW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=localhost;Initial Catalog=AdventureWorksDW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DQS]"
+      DTS:CreationName="DQS"
+      DTS:DTSID="{588383F4-7CEA-4E13-9025-FD9EC95EF519}"
+      DTS:ObjectName="DQS">
+      <DTS:ObjectData>
+        <InnerObject>
+          <ServerName
+            Type="8"
+            Value="localhost" />
+        </InnerObject>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:Description="Number of rows to output at the source."
+      DTS:DTSID="{F836173A-C00C-4D1C-961C-5F7D16507D0E}"
+      DTS:ObjectName="NumberOfRows">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">500</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{823F5436-7268-41CA-9215-F3814FC11363}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RowCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task"
+      DTS:CreationName="{5918251B-2970-45A4-AB5F-01C3C588FE5A}"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{924FD989-1C33-47B2-9646-097E0D0B356D}"
+      DTS:ExecutableType="{5918251B-2970-45A4-AB5F-01C3C588FE5A}"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task\Autosuggest"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Autosuggest">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::RowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Autosuggest.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Autosuggest.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Data Flow Task\Autosuggest.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Conditional Split"
+              componentClassID="{7F88F654-4E20-4D14-84F4-AF9C925D3087}"
+              contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+              name="Conditional Split"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  description="Input to the Conditional Split Transformation"
+                  name="Conditional Split Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input].Columns[Record Status]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="Record Status"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Correct]"
+                  description="Output 1 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Correct"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]} == "Correct"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">[Record Status] == "Correct"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Invalid]"
+                  description="Output 2 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Invalid"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]} == "Invalid"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">[Record Status] == "Invalid"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Corrected]"
+                  description="Output 3 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Corrected"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]} == "Corrected"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">[Record Status] == "Corrected"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Unknown]"
+                  description="Output 4 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Unknown"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]} == "Unknown"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">[Record Status] == "Unknown"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">3</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Auto suggest]"
+                  description="Output 5 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Auto suggest"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]} == "Auto suggest"</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">[Record Status] == "Auto suggest"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">4</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Other]"
+                  description="Default Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  name="Other"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      name="IsDefaultOut">true</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output]"
+                  description="Error Output of the Conditional Split Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Conditional Split Error Output"
+                  synchronousInputId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Data Flow Task\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Correct"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Correct">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::RowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Correct.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Correct.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Data Flow Task\Correct.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Corrected"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Corrected">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::RowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Corrected.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Corrected.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Data Flow Task\Corrected.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\DQS Cleansing"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              description="DQS Cleansing component"
+              name="DQS Cleansing"
+              usesDispositions="true">
+              <properties>
+                <property
+                  dataType="System.Int64"
+                  name="KnowledgebaseName"
+                  typeConverter="NOTBROWSABLE">1000000</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.Ssdqs.Component.DataCorrection.Logic.DataCorrectionComponent, Microsoft.Ssdqs.Component.DataCorrection, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</property>
+                <property
+                  dataType="System.String"
+                  name="PackageName">HandleAllStatus</property>
+                <property
+                  dataType="System.Boolean"
+                  name="EncryptConnection">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="StandardizeOutput">true</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ConfidenceOutputColumnExists">true</property>
+                <property
+                  dataType="System.Boolean"
+                  name="ReasonOutputColumnExists">false</property>
+                <property
+                  dataType="System.Boolean"
+                  name="AppendedDataOutputColumnExists">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task\DQS Cleansing.Connections[DQS]"
+                  connectionManagerID="Package.ConnectionManagers[DQS]"
+                  connectionManagerRefId="Package.ConnectionManagers[DQS]"
+                  name="DQS" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\DQS Cleansing.Inputs[DQS Cleansing Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="DQS Cleansing Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[CountyRegionCode]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="CountyRegionCode"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountyRegionCode]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Country/Region (three-letter leading)</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1003</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputDataTypeProperties">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Status]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ConfidenceOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Confidence]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Inputs[DQS Cleansing Input].Columns[CountryRegionName]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="CountryRegionName"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountryRegionName]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="SourceOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Source]}</property>
+                        <property
+                          dataType="System.String"
+                          name="DomainName">Country/Region</property>
+                        <property
+                          dataType="System.Int64"
+                          name="DomainId">1001</property>
+                        <property
+                          dataType="System.Boolean"
+                          name="CorrectedOutputDataTypeProperties">false</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="CorrectedOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Output]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="StatusOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Status]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          name="ConfidenceOutputLineageId">#{Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Confidence]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output]"
+                  name="DQS Cleansing Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Source]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Source]"
+                      name="CountyRegionCode_Source" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Source]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Source]"
+                      name="CountryRegionName_Source" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[Record Status]"
+                      name="Record Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Output]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Output]"
+                      name="CountyRegionCode_Output" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Status]"
+                      name="CountyRegionCode_Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Confidence]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountyRegionCode_Confidence]"
+                      name="CountyRegionCode_Confidence" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Output]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Output]"
+                      name="CountryRegionName_Output" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Status]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Status]"
+                      name="CountryRegionName_Status" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Confidence]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output].Columns[CountryRegionName_Confidence]"
+                      name="CountryRegionName_Confidence" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Invalid"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Invalid">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::RowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Invalid.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Invalid.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Data Flow Task\Invalid.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Script Component"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              contactInfo="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum.;Microsoft Corporation; Microsoft SQL Server; Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;8"
+              description="Includes and runs custom script code. For example, apply a business rule that limits the range of valid values in an &quot;income&quot; column or add values in two columns and calculate the average of the sum."
+              name="Script Component"
+              version="8">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Stores the source code of the component"
+                  isArray="true"
+                  name="SourceCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="30">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[main.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[#region Help:  Introduction to the Script Component
+/* The Script Component allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services data flow.
+ *
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script component. */
+#endregion
+
+#region Namespaces
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+using System.Text;
+#endregion
+
+/// <summary>
+/// This is the class to which to add your code.  Do not change the name, attributes, or parent
+/// of this class.
+/// </summary>
+[Microsoft.SqlServer.Dts.Pipeline.SSISScriptComponentEntryPointAttribute]
+public class ScriptMain : UserComponent
+{
+    readonly string[] CountryCode = { "FR", "GB", "US", "DE", "CA" };
+    readonly string[] CountryName = { "France", "United Kingdom", "United States", "Germany", "Canada" };
+    Random random;
+
+    public override void  PreExecute()
+    {
+        // Use static seed so we get the same values each time
+ 	    random = new Random(1);
+    }
+
+    public override void CreateNewOutputRows()
+    {
+        int maxRows = Variables.NumberOfRows;
+        for (int i = 0; i < maxRows; i++)
+        {
+            // Add new row
+            LocationsBuffer.AddRow();
+
+            // Generate our next index
+            int index = random.Next(CountryCode.Length);
+            
+            LocationsBuffer.CountyRegionCode = GetCountryCode(index);
+            LocationsBuffer.CountryRegionName = GetCountryName(index);
+        }
+    }
+
+    public string GetCountryCode(int index)
+    {
+        return CountryCode[index];
+    }
+
+    public string GetCountryName(int index)
+    {
+        string country = CountryName[index];
+        StringBuilder sb = new StringBuilder(country);
+        
+        // modify 0 to 2 characters in the string
+        int numCharsToChange = random.Next(3);
+        for (int i = 0; i < numCharsToChange; i++)
+        {
+            char c = (char)((short) 'a' + random.Next(26));
+            int pos = random.Next(country.Length);
+            sb[pos] = c;
+        }
+
+        return sb.ToString();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.resx]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+</root>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_74e9d75a988f40cfabf16d60232e36ea.csproj]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B6BA514-43FF-4EF2-85E4-8022C600BDD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SC_74e9d75a988f40cfabf16d60232e36ea</RootNamespace>
+    <AssemblyName>SC_74e9d75a988f40cfabf16d60232e36ea</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release\</OutputPath>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSRuntimeWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.DTSPipelineWrap, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.SqlServer.PipelineHost, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Compile Include="main.cs" />
+    <Compile Include="BufferWrapper.cs" />
+    <Compile Include="ComponentWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <!-- Include the build rules for a C# project.-->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- This section defines VSTA properties that describe the host-changable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}">
+        <ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" />
+        <Host Name="ScriptComponent" IconIndex="0" />
+        <ProjectClient>
+          <HostIdentifier>SSIS_SC110</HostIdentifier>
+        </ProjectClient>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[BufferWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services buffer wrappers
+*  This module defines classes for accessing data flow buffers
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+
+public class LocationsBuffer: ScriptBuffer
+
+{
+    public LocationsBuffer(PipelineBuffer Buffer, int[] BufferColumnIndexes, OutputNameMap OutputMap)
+        : base(Buffer, BufferColumnIndexes, OutputMap)
+    {
+    }
+
+    public String CountyRegionCode
+    {
+        set
+        {
+            this[0] = value;
+        }
+    }
+    public bool CountyRegionCode_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(0);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    public String CountryRegionName
+    {
+        set
+        {
+            this[1] = value;
+        }
+    }
+    public bool CountryRegionName_IsNull
+    {
+        set
+        {
+            if (value)
+            {
+                SetNull(1);
+            }
+            else
+            {
+                throw new InvalidOperationException("IsNull property cannot be set to False. Assign a value to the column instead.");
+            }
+        }
+    }
+
+    new public void AddRow()
+    {
+        base.AddRow();
+    }
+
+    new public void SetEndOfRowset()
+    {
+        base.SetEndOfRowset();
+    }
+
+    new public bool EndOfRowset()
+    {
+        return base.EndOfRowset();
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[ComponentWrapper.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[/* THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT!
+*  Microsoft SQL Server Integration Services component wrapper
+*  This module defines the base class for your component
+*  THIS IS AUTO-GENERATED CODE THAT WILL BE OVERWRITTEN! DO NOT EDIT! */
+
+using System;
+using System.Data;
+using Microsoft.SqlServer.Dts.Pipeline;
+using Microsoft.SqlServer.Dts.Pipeline.Wrapper;
+using Microsoft.SqlServer.Dts.Runtime.Wrapper;
+
+public class UserComponent: ScriptComponent
+{
+    public Connections Connections;
+    public Variables Variables;
+    public UserComponent()
+    {
+        Connections = new Connections(this);
+        Variables = new Variables(this);
+    }
+
+    public LocationsBuffer LocationsBuffer;
+
+    public virtual void FinishOutputs()
+    {
+    }
+
+    private void MarkOutputsFinished()
+    {
+
+        if (null != LocationsBuffer)
+        {
+            LocationsBuffer.SetEndOfRowset();
+            LocationsBuffer = null;
+        }
+
+    }
+
+    public override void PrimeOutput(int Outputs, int[] OutputIDs, PipelineBuffer[] Buffers, OutputNameMap OutputMap)
+    {
+       for(int Idx = 0; Idx < Outputs; Idx++)
+       {
+            if(OutputIDs[Idx] == GetOutputID(OutputMap, @"Locations"))
+            {
+                LocationsBuffer = new LocationsBuffer(Buffers[Idx], GetColumnIndexes(OutputIDs[Idx]), OutputMap);
+            }
+        }
+
+        CreateNewOutputRows();
+
+        FinishOutputs();
+        MarkOutputsFinished();
+
+    }
+
+    public virtual void CreateNewOutputRows()
+    {
+    }
+
+}
+
+public class Connections
+{
+    ScriptComponent ParentComponent;
+
+    public Connections(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+}
+
+public class Variables
+{
+    ScriptComponent ParentComponent;
+
+    public Variables(ScriptComponent Component)
+    {
+        ParentComponent = Component;
+    }
+
+    public Int32 NumberOfRows
+    {
+        get
+        {
+            return (Int32)(ParentComponent.ReadOnlyVariables["NumberOfRows"].GetValueWithContext(ScriptComponent.EvaluatorContext));
+        }
+    }
+
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Settings.get_Default():SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Sett" +
+    "ings")]
+
+namespace SC_74e9d75a988f40cfabf16d60232e36ea.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Project]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF16LE]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
+<c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
+	<msb:PropertyGroup>
+		<msb:CodeName>SC_74e9d75a988f40cfabf16d60232e36ea</msb:CodeName>
+		<msb:DisplayName>SC_74e9d75a988f40cfabf16d60232e36ea</msb:DisplayName>
+		<msb:ProjectId>{6E43C762-91BD-4AD4-BD5A-09D3E1324602}</msb:ProjectId>
+		<msb:Language>msBuild</msb:Language>
+	</msb:PropertyGroup>
+	<msb:ItemGroup>
+		<msb:Project Include="SC_74e9d75a988f40cfabf16d60232e36ea.csproj"/>
+		<msb:File Include="main.cs"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
+		<msb:File Include="ComponentWrapper.cs"/>
+		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="BufferWrapper.cs"/>
+		<msb:File Include="Properties\Settings.Designer.cs"/>
+		<msb:File Include="Properties\Resources.Designer.cs"/>
+		<msb:File Include="Properties\Settings.settings"/>
+	</msb:ItemGroup>
+</c:Project>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\AssemblyInfo.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("SC_74e9d75a988f40cfabf16d60232e36ea")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("SC_74e9d75a988f40cfabf16d60232e36ea")]
+[assembly: AssemblyCopyright("Copyright @ Microsoft 2011")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]
+]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Settings.settings]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[Properties\Resources.Designer.cs]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[UTF8]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Resources.get_ResourceManager():System.Resources.Resou" +
+    "rceManager")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Resources.get_Culture():System.Globalization.CultureIn" +
+    "fo")]
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Resources.set_Culture(System.Globalization.CultureInfo" +
+    "):Void")]
+
+namespace SC_74e9d75a988f40cfabf16d60232e36ea.Properties {
+    
+    
+    /// <summary>
+    ///   A strongly-typed resource class, for looking up localized strings, etc.
+    /// </summary>
+    // This class was auto-generated by the StronglyTypedResourceBuilder
+    // class via a tool like ResGen or Visual Studio.
+    // To add or remove a member, edit your .ResX file then rerun ResGen
+    // with the /str option, or rebuild your VS project.
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+    internal class Resources {
+        
+        private static global::System.Resources.ResourceManager resourceMan;
+        
+        private static global::System.Globalization.CultureInfo resourceCulture;
+        
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+        internal Resources() {
+        }
+        
+        /// <summary>
+        ///   Returns the cached ResourceManager instance used by this class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if ((resourceMan == null)) {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SC_74e9d75a988f40cfabf16d60232e36ea.Properties.Resources", typeof(Resources).Assembly);
+                    resourceMan = temp;
+                }
+                return resourceMan;
+            }
+        }
+        
+        /// <summary>
+        ///   Overrides the current thread's CurrentUICulture property for all
+        ///   resource lookups using this strongly typed resource class.
+        /// </summary>
+        [global::System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
+                return resourceCulture;
+            }
+            set {
+                resourceCulture = value;
+            }
+        }
+    }
+}
+]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Stores the binary representation of the component"
+                  isArray="true"
+                  name="BinaryCode"
+                  state="cdata">
+                  <arrayElements
+                    arrayElementCount="2">
+                    <arrayElement
+                      dataType="System.String"><![CDATA[SC_74e9d75a988f40cfabf16d60232e36ea.dll]]></arrayElement>
+                    <arrayElement
+                      dataType="System.String"><![CDATA[TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDACubsU4AAAAAAAAAAOAAAiELAQgAABgAAAAIAAAAAAAAjjcA
+AAAgAAAAQAAAAABAAAAgAAAAAgAABAAAAAAAAAAEAAAAAAAAAACAAAAAAgAAAAAAAAMAQIUAABAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAADw3AABPAAAAAEAAAFAEAAAAAAAAAAAAAAAAAAAA
+AAAAAGAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAlBcAAAAgAAAAGAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAFAEAAAAQAAAAAYAAAAaAAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAGAAAAACAAAAIAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAABw
+NwAAAAAAAEgAAAACAAUAKCQAABQTAAABAAAAAAAAAHAjAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAH4CKA0AAAoCAnMTAAAGfQEAAAQCAnMUAAAGfQIAAAQqBipu
+AnsDAAAELBICewMAAARvEQAABgIUfQMAAAQqAAATMAUASQAAAAEAABEWCisuBAaUDgRyAQAAcCgO
+AAAKMxkCBQaaAgQGlCgPAAAKDgRzCwAABn0DAAAEBhdYCgYDMs4CbwUAAAYCbwIAAAYCKAMAAAYq
+Bio2AhdzEQAACn0GAAAEKgAAABMwAwBcAAAAAgAAEQJ7AgAABG8VAAAGChYLK0cCewMAAARvEAAA
+BgJ7BgAABAJ7BAAABI5pbxIAAAoMAnsDAAAEAggoCAAABm8MAAAGAnsDAAAEAggoCQAABm8OAAAG
+BxdYCwcGMrUqJgJ7BAAABAOaKgAAEzADAGAAAAADAAARAnsFAAAEA5oKBnMTAAAKCwJ7BgAABBlv
+EgAACgwWDSs0H2ECewYAAAQfGm8SAAAKWNETBAJ7BgAABAZvFAAACm8SAAAKEwUHEQURBG8VAAAK
+CRdYDQkIMsgHbxYAAAoqEzAEAHMAAAAEAAARAhuNGAAAAQoGFnIVAABwogYXchsAAHCiBhhyIQAA
+cKIGGXInAABwogYaci0AAHCiBn0EAAAEAhuNGAAAAQsHFnIzAABwogcXckEAAHCiBxhyXwAAcKIH
+GXJ7AABwogcacosAAHCiB30FAAAEAigBAAAGKioCAwQFKBcAAAoqJgIWAygYAAAKKloDLAgCFigZ
+AAAKKnKZAABwcxoAAAp6JgIXAygYAAAKKloDLAgCFygZAAAKKnKZAABwcxoAAAp6HgIoGwAACioe
+AigcAAAKKh4CKB0AAAoqOgIoHgAACgIDfQcAAAQqOgIoHgAACgIDfQgAAAQqlgJ7CAAABG8fAAAK
+cjYBAHBvIAAACighAAAKbyIAAAqlHgAAASoeAigeAAAKKhMwAwAtAAAABQAAEX4JAAAELSByUAEA
+cNAHAAACKCQAAApvJQAACnMmAAAKCgaACQAABH4JAAAEKhp+CgAABCoeAoAKAAAEKhp+CwAABCou
+cxsAAAaACwAABCoeAigpAAAKKgAAAAAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3VyY2Vz
+LlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRy
+YWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5SdW50
+aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAEJTSkIBAAEAAAAAAAwAAAB2NC4w
+LjMwMzE5AAAAAAUAbAAAADAGAAAjfgAAnAYAAKgIAAAjU3RyaW5ncwAAAABEDwAAxAEAACNVUwAI
+EQAAEAAAACNHVUlEAAAAGBEAAPwBAAAjQmxvYgAAAAAAAAACAAABVxWiAQkBAAAA+iUzABYAAAEA
+AAAlAAAACAAAAAsAAAAcAAAAEAAAACkAAAAPAAAABQAAAAQAAAAIAAAACQAAAAEAAAAFAAAAAQAA
+AAAACgABAAAAAAAGAPEA0AAGAAEB0AAKAB4BFwEOADoBJQESAJsB0AAGAKoB0AAKAPABFwEKAEAD
+LwMKAHEDXAMKAFQEOgQKAH8EbQQKAJYEbQQKALMEbQQKANIEbQQKAOsEbQQKAAQFbQQKAB8FbQQK
+ADoFbQQKAFMFbQQKAIwFbAUKAKwFbAUGAAsG0AAKAEMGNwYKAFEGFwEKAIcGFwEWAOwGxAYWABMH
+xAYHACwHAAAWAFwHxAYKAIgHFwEKAKEHjgcKAL4HFwEKAMMHFwEKAOcHbQQOABMI/QcOACwI/QcK
+AEEIbAUAAAAAAQAAAAAAAQABAAEAEAAyAAAABQABAAEAAQAQAEAAAAAIAAQABgABABAASwAAAAkA
+BwALAAEAEABbAAAADQAHABMAAQAQAGcAAAANAAgAFAAAABAAcQB7AA0ACQAWAAABEACqAHsAEQAL
+ABoABgBbABMABgBnABcABgBLAB8AIQDYAS8AIQDkAS8AAQD3ATMAAQABA1wAAQABA1wAEQBQA24A
+EQB9A3IAEQDBA5AAUCAAAAAAhhhSARsAAQBwIAAAAADGAVgBGwABAHIgAAAAAIEAZgEbAAEAkCAA
+AAAAxgC4ASMAAQDlIAAAAADGAcQBGwAFAOcgAAAAAMYA/gEbAAUA+CAAAAAAxgDEARsABQBgIQAA
+AACGAAkCNwAFAGwhAAAAAIYAGAI3AAYA2CEAAAAAhhhSARsABwBXIgAAAACGGFIBPAAHAGIiAAAA
+AIYIJwJGAAoAbCIAAAAAhgg8AksACwCDIgAAAACGCFgCRgAMAI0iAAAAAIYIbgJLAA0ApCIAAAAA
+hgCLAhsADgCsIgAAAACGAJICGwAOALQiAAAAAIYAoQJQAA4AvCIAAAAAhhhSAWAADgDLIgAAAACG
+GFIBYAAPANoiAAAAAIYIEQNmABAAACMAAAAAgxhSARsAEAAIIwAAAACTCI0DdgAQAEEjAAAAAJMI
+oQN7ABAASCMAAAAAkwitA4AAEABQIwAAAACWCNEDlAARAGMjAAAAAIYYUgEbABEAVyMAAAAAkRhc
+CCcBEQAAAAEA5QMAAAIA7QMAAAMA9wMAAAQA/wMAAAEACQQAAAEACQQAAAEADwQAAAIAFgQAAAMA
+/wMAAAEAKgQAAAEAKgQAAAEAKgQAAAEAKgQAAAEAMAQAAAEAMAQAAAEAKgRRAFIBRgBZAFIBRgBh
+AFIBRgBpAFIBRgBxAFIBRgB5AFIBRgCBAFIBRgCJAFIBRgCRAFIBRgCZAFIBRgChAFIBngCpAFIB
+GwAJAFIBGwAJAO4FowAJAPoFqgCxAFIBGwA5AFIBngA5ADIGuQC5AFIBRgDBAFgGZgC5AGMGxAAZ
+AG0GygARAFIBPAARAHYG3wARAH8GngDJAFIBRgARAIsCGwARAJICGwARAKECUAAZAFIBGwAJAP0G
+5QDRACMH6gAJAEcH8ADZAHQH9QD5AFIBGwABAdUH+wABAfAHBAFBAFIBCgEZAVIBFwEpAVIBGwAh
+AFIBGwAuABsAnAEuAGMA2gEuAAsAKwEuABMAcwEuACMAnAEuACsAogEuADMAcwEuADsAsQEuAEMA
+nAEuAFsA0QFjAIMAtADJADsBHgHjABsBtADpADsBHgFhAUMBtACwAL4AzgDYABIBBAABAAYABQAH
+AAYACAAIAAAArQJUAAAAvgJYAAAA1gJUAAAA6AJYAAAAIgNqAAAAQAOGAAAAuQOLAAAA3QOZAAEA
+DAADAAEADQAFAAEADgAHAAEADwAJAAIAFQALAAIAFwANAAIAGAAPAAEAGQAPAAIAGgARAASAAAAB
+AAAA4xBtZgAAAAAAAMoFAAALAAAAAAAAAAAAAAABALMAAAAAAAQAAAAAAAAAAAAAAAoADgEAAAAA
+BAAAAAAAAAAAAAAACgAXAQAAAAALAAAAAAAAAAAAAAABAHoBAAAAAAsAAAAAAAAAAAAAAAEAoQYA
+AAAAAAAAAAEAAABjCAAAAAAAAAA8TW9kdWxlPgBTQ183NGU5ZDc1YTk4OGY0MGNmYWJmMTZkNjAy
+MzJlMzZlYS5kbGwAVXNlckNvbXBvbmVudABTY3JpcHRNYWluAExvY2F0aW9uc0J1ZmZlcgBDb25u
+ZWN0aW9ucwBWYXJpYWJsZXMAUmVzb3VyY2VzAFNDXzc0ZTlkNzVhOTg4ZjQwY2ZhYmYxNmQ2MDIz
+MmUzNmVhLlByb3BlcnRpZXMAU2V0dGluZ3MATWljcm9zb2Z0LlNxbFNlcnZlci5UeFNjcmlwdABN
+aWNyb3NvZnQuU3FsU2VydmVyLkR0cy5QaXBlbGluZQBTY3JpcHRDb21wb25lbnQAU2NyaXB0QnVm
+ZmVyAG1zY29ybGliAFN5c3RlbQBPYmplY3QAU3lzdGVtLkNvbmZpZ3VyYXRpb24AQXBwbGljYXRp
+b25TZXR0aW5nc0Jhc2UALmN0b3IARmluaXNoT3V0cHV0cwBNYXJrT3V0cHV0c0ZpbmlzaGVkAE1p
+Y3Jvc29mdC5TcWxTZXJ2ZXIuUGlwZWxpbmVIb3N0AFBpcGVsaW5lQnVmZmVyAE91dHB1dE5hbWVN
+YXAAUHJpbWVPdXRwdXQAQ3JlYXRlTmV3T3V0cHV0Um93cwBDb3VudHJ5Q29kZQBDb3VudHJ5TmFt
+ZQBSYW5kb20AcmFuZG9tAFByZUV4ZWN1dGUAR2V0Q291bnRyeUNvZGUAR2V0Q291bnRyeU5hbWUA
+c2V0X0NvdW50eVJlZ2lvbkNvZGUAc2V0X0NvdW50eVJlZ2lvbkNvZGVfSXNOdWxsAHNldF9Db3Vu
+dHJ5UmVnaW9uTmFtZQBzZXRfQ291bnRyeVJlZ2lvbk5hbWVfSXNOdWxsAEFkZFJvdwBTZXRFbmRP
+ZlJvd3NldABFbmRPZlJvd3NldABDb3VudHlSZWdpb25Db2RlAENvdW50eVJlZ2lvbkNvZGVfSXNO
+dWxsAENvdW50cnlSZWdpb25OYW1lAENvdW50cnlSZWdpb25OYW1lX0lzTnVsbABQYXJlbnRDb21w
+b25lbnQAZ2V0X051bWJlck9mUm93cwBOdW1iZXJPZlJvd3MAU3lzdGVtLlJlc291cmNlcwBSZXNv
+dXJjZU1hbmFnZXIAcmVzb3VyY2VNYW4AU3lzdGVtLkdsb2JhbGl6YXRpb24AQ3VsdHVyZUluZm8A
+cmVzb3VyY2VDdWx0dXJlAGdldF9SZXNvdXJjZU1hbmFnZXIAZ2V0X0N1bHR1cmUAc2V0X0N1bHR1
+cmUAQ3VsdHVyZQBkZWZhdWx0SW5zdGFuY2UAZ2V0X0RlZmF1bHQARGVmYXVsdABPdXRwdXRzAE91
+dHB1dElEcwBCdWZmZXJzAE91dHB1dE1hcABpbmRleABCdWZmZXIAQnVmZmVyQ29sdW1uSW5kZXhl
+cwB2YWx1ZQBDb21wb25lbnQAU3lzdGVtLlJ1bnRpbWUuVmVyc2lvbmluZwBUYXJnZXRGcmFtZXdv
+cmtBdHRyaWJ1dGUAU3lzdGVtLlJlZmxlY3Rpb24AQXNzZW1ibHlUaXRsZUF0dHJpYnV0ZQBBc3Nl
+bWJseURlc2NyaXB0aW9uQXR0cmlidXRlAEFzc2VtYmx5Q29uZmlndXJhdGlvbkF0dHJpYnV0ZQBB
+c3NlbWJseUNvbXBhbnlBdHRyaWJ1dGUAQXNzZW1ibHlQcm9kdWN0QXR0cmlidXRlAEFzc2VtYmx5
+Q29weXJpZ2h0QXR0cmlidXRlAEFzc2VtYmx5VHJhZGVtYXJrQXR0cmlidXRlAEFzc2VtYmx5Q3Vs
+dHVyZUF0dHJpYnV0ZQBBc3NlbWJseVZlcnNpb25BdHRyaWJ1dGUAU3lzdGVtLlJ1bnRpbWUuQ29t
+cGlsZXJTZXJ2aWNlcwBDb21waWxhdGlvblJlbGF4YXRpb25zQXR0cmlidXRlAFJ1bnRpbWVDb21w
+YXRpYmlsaXR5QXR0cmlidXRlAFNDXzc0ZTlkNzVhOTg4ZjQwY2ZhYmYxNmQ2MDIzMmUzNmVhAEdl
+dE91dHB1dElEAEdldENvbHVtbkluZGV4ZXMAU1NJU1NjcmlwdENvbXBvbmVudEVudHJ5UG9pbnRB
+dHRyaWJ1dGUATmV4dABTeXN0ZW0uVGV4dABTdHJpbmdCdWlsZGVyAFN0cmluZwBnZXRfTGVuZ3Ro
+AHNldF9DaGFycwBUb1N0cmluZwBzZXRfSXRlbQBTZXROdWxsAEludmFsaWRPcGVyYXRpb25FeGNl
+cHRpb24ATWljcm9zb2Z0LlNxbFNlcnZlci5EVFNSdW50aW1lV3JhcABNaWNyb3NvZnQuU3FsU2Vy
+dmVyLkR0cy5SdW50aW1lLldyYXBwZXIASURUU1ZhcmlhYmxlczEwMABnZXRfUmVhZE9ubHlWYXJp
+YWJsZXMASURUU1ZhcmlhYmxlMTAwAGdldF9JdGVtAFNjcmlwdENvbXBvbmVudEV2YWxDb250ZXh0
+AGdldF9FdmFsdWF0b3JDb250ZXh0AElEVFNFdmFsdWF0b3JDb250ZXh0MTAwAEdldFZhbHVlV2l0
+aENvbnRleHQASW50MzIAU3lzdGVtLkRpYWdub3N0aWNzAERlYnVnZ2VyTm9uVXNlckNvZGVBdHRy
+aWJ1dGUAVHlwZQBSdW50aW1lVHlwZUhhbmRsZQBHZXRUeXBlRnJvbUhhbmRsZQBBc3NlbWJseQBn
+ZXRfQXNzZW1ibHkAU3lzdGVtLkNvbXBvbmVudE1vZGVsAEVkaXRvckJyb3dzYWJsZUF0dHJpYnV0
+ZQBFZGl0b3JCcm93c2FibGVTdGF0ZQBDb21waWxlckdlbmVyYXRlZEF0dHJpYnV0ZQAuY2N0b3IA
+U0NfNzRlOWQ3NWE5ODhmNDBjZmFiZjE2ZDYwMjMyZTM2ZWEuUHJvcGVydGllcy5SZXNvdXJjZXMu
+cmVzb3VyY2VzAAAAABNMAG8AYwBhAHQAaQBvAG4AcwAABUYAUgAABUcAQgAABVUAUwAABUQARQAA
+BUMAQQAADUYAcgBhAG4AYwBlAAAdVQBuAGkAdABlAGQAIABLAGkAbgBnAGQAbwBtAAAbVQBuAGkA
+dABlAGQAIABTAHQAYQB0AGUAcwAAD0cAZQByAG0AYQBuAHkAAA1DAGEAbgBhAGQAYQAAgJtJAHMA
+TgB1AGwAbAAgAHAAcgBvAHAAZQByAHQAeQAgAGMAYQBuAG4AbwB0ACAAYgBlACAAcwBlAHQAIAB0
+AG8AIABGAGEAbABzAGUALgAgAEEAcwBzAGkAZwBuACAAYQAgAHYAYQBsAHUAZQAgAHQAbwAgAHQA
+aABlACAAYwBvAGwAdQBtAG4AIABpAG4AcwB0AGUAYQBkAC4AABlOAHUAbQBiAGUAcgBPAGYAUgBv
+AHcAcwAAcVMAQwBfADcANABlADkAZAA3ADUAYQA5ADgAOABmADQAMABjAGYAYQBiAGYAMQA2AGQA
+NgAwADIAMwAyAGUAMwA2AGUAYQAuAFAAcgBvAHAAZQByAHQAaQBlAHMALgBSAGUAcwBvAHUAcgBj
+AGUAcwAAAADizHYtS6sASrhdjwp3qCK9AAiJhF3NgIDMkQi3elxWGTTgiQMGEhQDBhIYAyAAAQMG
+EhALIAQBCB0IHRIVEhkDBh0OAwYSHQQgAQ4ICSADARIVHQgSGQQgAQEOBCABAQIDIAACAygADgMo
+AAIDBhIFBSABARIFAyAACAMoAAgDBhIhAwYSJQQAABIhBAAAEiUFAAEBEiUECAASIQQIABIlAwYS
+IAQAABIgBAgAEiAEIAEBCAYAAggSGQ4FIAEdCAgDBwEIBAEAAAAEIAEICAUHAwgICAUgAgEIAwMg
+AA4JBwYOEl0ICAMIBgcCHQ4dDgUgAgEIHAQgABJpBSABEm0cBAAAEnEFIAEcEnUIAAESgIERgIUF
+IAASgIkHIAIBDhKAiQQHARIhBiABARGAkQgBAAIAAAAAAAMAAAFHAQAaLk5FVEZyYW1ld29yayxW
+ZXJzaW9uPXY0LjABAFQOFEZyYW1ld29ya0Rpc3BsYXlOYW1lEC5ORVQgRnJhbWV3b3JrIDQoAQAj
+U0NfNzRlOWQ3NWE5ODhmNDBjZmFiZjE2ZDYwMjMyZTM2ZWEAAAUBAAAAAA4BAAlNaWNyb3NvZnQA
+AB8BABpDb3B5cmlnaHQgQCBNaWNyb3NvZnQgMjAxMQAACAEACAAAAAAAHgEAAQBUAhZXcmFwTm9u
+RXhjZXB0aW9uVGhyb3dzAQAAAGQ3AAAAAAAAAAAAAH43AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AABwNwAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUuZGxsAAAAAAD/JQAgQAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAEAEAAAABgAAIAAAAAAAAAAAAAAAAAAAAEAAQAAADAAAIAAAAAAAAAAAAAAAAAAAAEAAAAAAEgA
+AABYQAAA+AMAAAAAAAAAAAAA+AM0AAAAVgBTAF8AVgBFAFIAUwBJAE8ATgBfAEkATgBGAE8AAAAA
+AL0E7/4AAAEAAAABAG1m4xAAAAEAbWbjED8AAAAAAAAABAAAAAIAAAAAAAAAAAAAAAAAAABEAAAA
+AQBWAGEAcgBGAGkAbABlAEkAbgBmAG8AAAAAACQABAAAAFQAcgBhAG4AcwBsAGEAdABpAG8AbgAA
+AAAAAACwBFgDAAABAFMAdAByAGkAbgBnAEYAaQBsAGUASQBuAGYAbwAAADQDAAABADAAMAAwADAA
+MAA0AGIAMAAAADQACgABAEMAbwBtAHAAYQBuAHkATgBhAG0AZQAAAAAATQBpAGMAcgBvAHMAbwBm
+AHQAAABwACQAAQBGAGkAbABlAEQAZQBzAGMAcgBpAHAAdABpAG8AbgAAAAAAUwBDAF8ANwA0AGUA
+OQBkADcANQBhADkAOAA4AGYANAAwAGMAZgBhAGIAZgAxADYAZAA2ADAAMgAzADIAZQAzADYAZQBh
+AAAAQAAPAAEARgBpAGwAZQBWAGUAcgBzAGkAbwBuAAAAAAAxAC4AMAAuADQAMwAyADMALgAyADYA
+MgAyADEAAAAAAHAAKAABAEkAbgB0AGUAcgBuAGEAbABOAGEAbQBlAAAAUwBDAF8ANwA0AGUAOQBk
+ADcANQBhADkAOAA4AGYANAAwAGMAZgBhAGIAZgAxADYAZAA2ADAAMgAzADIAZQAzADYAZQBhAC4A
+ZABsAGwAAABcABsAAQBMAGUAZwBhAGwAQwBvAHAAeQByAGkAZwBoAHQAAABDAG8AcAB5AHIAaQBn
+AGgAdAAgAEAAIABNAGkAYwByAG8AcwBvAGYAdAAgADIAMAAxADEAAAAAAHgAKAABAE8AcgBpAGcA
+aQBuAGEAbABGAGkAbABlAG4AYQBtAGUAAABTAEMAXwA3ADQAZQA5AGQANwA1AGEAOQA4ADgAZgA0
+ADAAYwBmAGEAYgBmADEANgBkADYAMAAyADMAMgBlADMANgBlAGEALgBkAGwAbAAAAGgAJAABAFAA
+cgBvAGQAdQBjAHQATgBhAG0AZQAAAAAAUwBDAF8ANwA0AGUAOQBkADcANQBhADkAOAA4AGYANAAw
+AGMAZgBhAGIAZgAxADYAZAA2ADAAMgAzADIAZQAzADYAZQBhAAAARAAPAAEAUAByAG8AZAB1AGMA
+dABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgA0ADMAMgAzAC4AMgA2ADIAMgAxAAAAAABIAA8AAQBB
+AHMAcwBlAG0AYgBsAHkAIABWAGUAcgBzAGkAbwBuAAAAMQAuADAALgA0ADMAMgAzAC4AMgA2ADIA
+MgAxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAADAAAAJA3AAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==]]></arrayElement>
+                  </arrayElements>
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the Microsoft Visual Studio Tools for Applications project. Project names must be unique within a package."
+                  name="VSTAProjectName"
+                  typeConverter="NOTBROWSABLE">SC_74e9d75a988f40cfabf16d60232e36ea</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the programming language used by the script."
+                  name="ScriptLanguage"
+                  typeConverter="Microsoft.SqlServer.VSTAHosting.ScriptingLanguages, Microsoft.SqlServer.VSTAScriptingLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">CSharp</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read-only variables."
+                  name="ReadOnlyVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">$Package::NumberOfRows</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a comma-separated list of read/write variables."
+                  name="ReadWriteVariables"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ScriptUIWriteableVariablePickerDlg, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="List of breakpoints present on the script."
+                  isArray="true"
+                  name="BreakpointCollection"
+                  typeConverter="NOTBROWSABLE">
+                  <arrayElements
+                    arrayElementCount="0" />
+                </property>
+                <property
+                  dataType="System.String"
+                  description="Checksum to match component metedata against compiled codes."
+                  name="MetadataChecksum"
+                  typeConverter="NOTBROWSABLE">f3eae0f129e823821b98232153cfbcc4</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.SqlServer.Dts.Pipeline.ScriptComponentHost, Microsoft.SqlServer.TxScript, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</property>
+              </properties>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Script Component.Outputs[Locations]"
+                  hasSideEffects="true"
+                  name="Locations">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountyRegionCode]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountyRegionCode]"
+                      name="CountyRegionCode" />
+                    <outputColumn
+                      refId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountryRegionName]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Data Flow Task\Script Component.Outputs[Locations].Columns[CountryRegionName]"
+                      name="CountryRegionName" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task\Unknown"
+              componentClassID="{E2697D8C-70DA-42B2-8208-A19CE3A9FE41}"
+              contactInfo="Row Count;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Counts rows as they pass through a data flow. For example, use the number of rows processed to determine whether or not to perform cleanup operations, or update text in an e-mail message to communicate processing status."
+              name="Unknown">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable to hold the row count."
+                  name="VariableName">User::RowCount</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task\Unknown.Inputs[Row Count Input 1]"
+                  hasSideEffects="true"
+                  name="Row Count Input 1">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task\Unknown.Outputs[Row Count Output 1]"
+                  name="Row Count Output 1"
+                  synchronousInputId="Package\Data Flow Task\Unknown.Inputs[Row Count Input 1]">
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task.Paths[Auto suggest]"
+              endId="Package\Data Flow Task\Autosuggest.Inputs[Row Count Input 1]"
+              name="Auto suggest"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Auto suggest]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Correct]"
+              endId="Package\Data Flow Task\Correct.Inputs[Row Count Input 1]"
+              name="Correct"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Correct]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Corrected]"
+              endId="Package\Data Flow Task\Corrected.Inputs[Row Count Input 1]"
+              name="Corrected"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Corrected]" />
+            <path
+              refId="Package\Data Flow Task.Paths[DQS Cleansing Output]"
+              endId="Package\Data Flow Task\Conditional Split.Inputs[Conditional Split Input]"
+              name="DQS Cleansing Output"
+              startId="Package\Data Flow Task\DQS Cleansing.Outputs[DQS Cleansing Output]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Invalid]"
+              endId="Package\Data Flow Task\Invalid.Inputs[Row Count Input 1]"
+              name="Invalid"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Invalid]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Locations]"
+              endId="Package\Data Flow Task\DQS Cleansing.Inputs[DQS Cleansing Input]"
+              name="Locations"
+              startId="Package\Data Flow Task\Script Component.Outputs[Locations]" />
+            <path
+              refId="Package\Data Flow Task.Paths[Unknown]"
+              endId="Package\Data Flow Task\Unknown.Inputs[Row Count Input 1]"
+              name="Unknown"
+              startId="Package\Data Flow Task\Conditional Split.Outputs[Unknown]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="193,42"
+          Id="Package\Data Flow Task"
+          TopLeft="49.5,24.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Data Flow Task">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="112,42"
+          Id="Package\Data Flow Task\Invalid"
+          TopLeft="767,366.5" />
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Data Flow Task\Unknown"
+          TopLeft="82,386.5" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Data Flow Task\DQS Cleansing"
+          TopLeft="418.5,161.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Data Flow Task\Conditional Split"
+          TopLeft="415,263.5" />
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Data Flow Task\Corrected"
+          TopLeft="595,405.5" />
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Data Flow Task\Autosuggest"
+          TopLeft="233,413.5" />
+        <NodeLayout
+          Size="114,42"
+          Id="Package\Data Flow Task\Correct"
+          TopLeft="423,444.5" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[DQS Cleansing Output]"
+          TopLeft="493,203.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.53947265625,21.63818359375,53.0789453125,9.2236328125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Corrected]"
+          TopLeft="503.571428571429,305.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="154.428571428571,100"
+              Start="0,0"
+              End="154.428571428571,92.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.3654223968566" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.3654223968566"
+                    Point2="0,46.3654223968566"
+                    Point3="4,46.3654223968566" />
+                  <mssgle:LineSegment
+                    End="150.428571428571,46.3654223968566" />
+                  <mssgle:CubicBezierSegment
+                    Point1="150.428571428571,46.3654223968566"
+                    Point2="154.428571428571,46.3654223968566"
+                    Point3="154.428571428571,50.3654223968566" />
+                  <mssgle:LineSegment
+                    End="154.428571428571,92.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="26.4700279017855,51.3654223968566,101.488515625,9.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Correct]"
+          TopLeft="481.214285714286,305.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,139"
+              Start="0,0"
+              End="0,131.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,131.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-15.75890625,61.9731445312501,31.5178125,7.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Auto suggest]"
+          TopLeft="468.333333333333,305.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-156.833333333333,108"
+              Start="0,0"
+              End="-156.833333333333,100.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.8578680203046" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,39.8578680203046"
+                    Point2="0,43.8578680203046"
+                    Point3="-4,43.8578680203046" />
+                  <mssgle:LineSegment
+                    End="-152.833333333333,43.8578680203046" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-152.833333333333,43.8578680203046"
+                    Point2="-156.833333333333,43.8578680203046"
+                    Point3="-156.833333333333,47.8578680203046" />
+                  <mssgle:LineSegment
+                    End="-156.833333333333,100.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-132.601471354167,48.8578680203046,108.369609375,9.6630859375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Unknown]"
+          TopLeft="443.666666666667,305.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-299.666666666667,81"
+              Start="0,0"
+              End="-299.666666666667,73.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.76875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.76875"
+                    Point2="0,21.76875"
+                    Point3="-4,21.76875" />
+                  <mssgle:LineSegment
+                    End="-295.666666666667,21.76875" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-295.666666666667,21.76875"
+                    Point2="-299.666666666667,21.76875"
+                    Point3="-299.666666666667,25.76875" />
+                  <mssgle:LineSegment
+                    End="-299.666666666667,73.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-169.759212239583,26.76875,39.8517578125,7.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Invalid]"
+          TopLeft="542.333333333333,305.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="280.666666666667,61"
+              Start="0,0"
+              End="280.666666666667,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.39375" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.39375"
+                    Point2="0,16.39375"
+                    Point3="4,16.39375" />
+                  <mssgle:LineSegment
+                    End="276.666666666667,16.39375" />
+                  <mssgle:CubicBezierSegment
+                    Point1="276.666666666667,16.39375"
+                    Point2="280.666666666667,16.39375"
+                    Point3="280.666666666667,20.39375" />
+                  <mssgle:LineSegment
+                    End="280.666666666667,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="126.068743489583,21.39375,28.5291796875,7.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Data Flow Task\Script Component"
+          TopLeft="417,58" />
+        <AnnotationLayout
+          Text="CountryRegionCode is 2 characters long.&#xD;&#xA;CountryRegionName may contain typos."
+          ParentId="Package\Data Flow Task"
+          FontInfo="{assembly:Null}"
+          Size="245,74"
+          Id="ea386e57-1b1d-4c17-b370-6256c993f9ce"
+          TopLeft="602,37" />
+        <EdgeLayout
+          Id="Package\Data Flow Task.Paths[Locations]"
+          TopLeft="496,100">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,61.5"
+              Start="0,0"
+              End="0,54">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-26.53947265625,22.38818359375,53.0789453125,9.2236328125"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
